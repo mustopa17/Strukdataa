@@ -49,7 +49,8 @@ void removedepan()
 {
     del = head;
     head = head->next;
-    head->prev = NULL;
+    head->prev = tail;
+
     delete del;
 }
 
@@ -117,11 +118,65 @@ void printDoublelinkedlist()
     } while (bantu != head);
 }
 
+// search data
+bool searchByHead(string nama)
+{
+    bantu = head;
+
+    do
+    {
+        if (bantu->nama == nama)
+            return true;
+
+        bantu = bantu->next;
+    } while (bantu != head);
+
+    return false;
+}
+
+// menghapus node tertentu
+void removeByname(string nama)
+{
+    if (head->nama == nama)
+    {
+        if (head == tail)
+        {
+            delete head;
+            head = NULL;
+            tail = NULL;
+        }
+        else
+        {
+            DataPeminjamanBuku *temp = head;
+            head = head->next;
+            head->prev = tail;
+            tail->next = head;
+            delete temp;
+        }
+        cout << "Data berhasil dihapus." << endl;
+        return;
+    }
+    bantu = head->next;
+    while (bantu != head)
+    {
+        if (bantu->nama == nama)
+        {
+            bantu->prev->next = bantu->next;
+            bantu->next->prev = bantu->prev;
+            delete bantu;
+            cout << "Data berhasil dihapus." << endl;
+            return;
+        }
+        bantu = bantu->next;
+    }
+    cout << "Data tidak ditemukan." << endl;
+}
+
 int main()
 {
     int totalElements;
 
-    string nama, nim, NamaBuku;
+    string nama, nim, NamaBuku, hapus;
     int jumlahbuku;
 
     createDoublelinked("Mustopa", "3333", "admmin", 1);
@@ -131,7 +186,7 @@ int main()
     {
         cout << "Menu:" << endl;
         cout << "1. Tambah Depan Data Peminjaman" << endl;
-        cout << "2. Hapus Depan Data Peminjaman" << endl;
+        cout << "2. Hapus  Data By Nama Peminjaman" << endl;
         cout << "3. Tampilkan Data Peminjaman" << endl;
         cout << "4. Edit Data Peminjaman" << endl;
         cout << "5. Tampilkan Data Peminjaman Terbalik" << endl;
@@ -160,9 +215,10 @@ int main()
             cout << "Data peminjaman ditambahkan." << endl;
             break;
         case 2:
-            removedepan();
+            cout << "Nama yang akan di hapus : ";
+            getline(cin, hapus);
             system("cls");
-            cout << "Data peminjaman dihapus." << endl;
+            removeByname(hapus);
             break;
         case 3:
             system("cls");
