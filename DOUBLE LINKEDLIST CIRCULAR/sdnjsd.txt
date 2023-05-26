@@ -1,0 +1,3 @@
+no1y :
+mov posy,12 jmp ulang.banding : cmp posy,12 je karakter cmp posy,13 je warna cmp posy,14 je rontok cmp posy,15 je keluar keluar :
+jmp selesai karakter :
